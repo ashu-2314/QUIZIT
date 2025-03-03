@@ -1,20 +1,19 @@
 import React from "react";
-import Header from "../layouts/Header";
-import Footer from "../layouts/Footer";
+import { useNavigate } from "react-router-dom";
 import "../styles/Index.css";
- 
+
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="index">
-      <Header />
-      <main>
-        <h2>Welcome to QuizIt</h2>
-        <p>Test your knowledge with fun and challenging quizzes!</p>
-        <a href="#" className="start-quiz">Start Quiz</a>
-      </main>
-      <Footer />
+    <div className="index-container">
+      <h1>Welcome to QuizIt</h1>
+      <p>Test your knowledge with fun and challenging quizzes!</p>
+      <button className="start-btn" onClick={() => navigate("/register")}>
+        Start Quiz
+      </button>
     </div>
   );
 };
- 
-export default Index;
+
+export default Index;

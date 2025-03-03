@@ -1,0 +1,21 @@
+.leaderboard-container {
+    text-align: center;
+    padding: 30px;
+  }
+  
+  table {
+    width: 60%;
+    margin: auto;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid black;
+  }
+  
+  th {
+    background: #007bff;
+    color: white;
+  }
+  
