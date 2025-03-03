@@ -1,0 +1,45 @@
+/* styles/App.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  /* Main content perfectly centered */
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin-top: 60px; /* Space for fixed header */
+    margin-bottom: 40px; /* Space for fixed footer */
+    padding: 20px;
+    min-height: calc(100vh - 100px); /* Prevent content from collapsing */
+  }
+  
+  /* Fixed footer */
+  footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  
