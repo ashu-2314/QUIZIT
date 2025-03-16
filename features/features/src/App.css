@@ -1,45 +1,26 @@
-/* styles/App.css */
+/* Ensure the app container takes full height */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-  }
-  
-  /* Main content perfectly centered */
-  main {
-    flex: 1;
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    margin-top: 60px; /* Space for fixed header */
-    margin-bottom: 40px; /* Space for fixed footer */
-    padding: 20px;
-    min-height: calc(100vh - 100px); /* Prevent content from collapsing */
-  }
-  
-  /* Fixed footer */
-  footer {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-  }
-  
+/* Main content should take remaining space */
+.main-content {
+  flex: 1;
+}
+
+/* Fix the footer at the bottom */
+.footer {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+footer.footer-class {  /* Use the actual class name */
+  background-color: #111 !important;
+  color: white !important;
+}

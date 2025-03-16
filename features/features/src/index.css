@@ -16,3 +16,7 @@ body {
   padding: 20px;
   text-align: center;
 }
+#root {
+  min-height: 100vh;
+  overflow: auto;
+}
