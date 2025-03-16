@@ -13,7 +13,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("User Logged In:", user);
-    navigate("/leaderboard");
+    navigate("/profile");
   };
 
   return (
