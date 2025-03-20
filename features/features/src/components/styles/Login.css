@@ -1,3 +1,4 @@
+/* Login Container */
 .login-container {
   text-align: center;
   padding: 30px;
@@ -5,21 +6,58 @@
   border-radius: 8px;
   width: 300px;
   margin: 50px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Success & Error Messages */
+.success-message, .error-message {
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Input Fields */
 input {
   display: block;
   width: 100%;
   padding: 10px;
   margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border 0.3s;
 }
 
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Button Styling */
 button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
   background: #28a745;
   color: white;
-  padding: 10px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 button:hover {

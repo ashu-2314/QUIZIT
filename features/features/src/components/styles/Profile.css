@@ -1,20 +1,139 @@
+/* Profile Page Container */
 .profile-container {
-    text-align: center;
-    padding: 30px;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Profile Header */
+.profile-container h2 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+/* Profile Image */
+.profile-image {
+  width: 100px;  /* ✅ Smaller Image */
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+/* Profile Image Input */
+.profile-image-input {
+  width: 80%;
+  padding: 6px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Profile Fields */
+.profile-fields {
+  margin-top: 15px;
+  text-align: left;
+}
+
+/* Profile Field Row */
+.profile-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Profile Field Label */
+.profile-field span {
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Profile Input */
+.profile-input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+/* Buttons */
+.profile-btn {
+  padding: 6px 10px;  /* ✅ Smaller Button */
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Edit Button */
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+  margin-left: 10px;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Save Button */
+.save-btn {
+  background-color: #28a745;
+  color: white;
+  margin-left: 10px;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+/* Logout Button */
+.logout-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 15px;
+  margin-top: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .profile-container {
+    width: 90%;
+    padding: 15px;
   }
-  
-  table {
-    width: 60%;
-    margin: auto;
-    border-collapse: collapse;
+
+  .profile-image {
+    width: 80px;  /* ✅ Adjusted for mobile */
+    height: 80px;
   }
-  
-  th, td {
-    padding: 10px;
-    border: 1px solid black;
+
+  .profile-field {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  th {
-    background: #007bff;
-    color: white;
+
+  .profile-btn {
+    width: auto;  /* ✅ Prevents full-width buttons */
+    margin-top: 5px;
   }
+}

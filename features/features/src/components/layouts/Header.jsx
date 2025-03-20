@@ -11,6 +11,7 @@ const Header = () => {
                 <a href="/profile">Profile</a>
                 <a href="/login">Login</a>
                 <a href="/register">Register</a>
+                
             </nav>
         </header>
     );

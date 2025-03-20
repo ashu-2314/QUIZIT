@@ -1,28 +1,190 @@
+/* General form container */
 .register-container {
-    text-align: center;
-    padding: 30px;
-    background: white;
-    border-radius: 8px;
-    width: 300px;
-    margin: 50px auto;
+  width: 100%;
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Form Title */
+h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Input Fields */
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+/* Input Focus Effect */
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Gender Selection */
+.gender-options {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.gender-options label {
+  font-size: 16px;
+  color: black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Ensure radio buttons are visible */
+.gender-options input[type="radio"] {
+  transform: scale(1.2);
+  margin-right: 5px;
+}
+
+/* Error Messages */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Next and Register Button */
+button[type="button"],
+button[type="submit"] {
+  background: #28a745;
+  color: white;
+}
+
+button:hover {
+  background: #218838;
+}
+
+/* Back Button */
+button[type="button"]:nth-of-type(1) {
+  background: #6c757d;
+}
+
+button[type="button"]:nth-of-type(1):hover {
+  background: #5a6268;
+}
+
+/* Quiz Preferences Section */
+h3 {
+  margin-top: 15px;
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 🔹 New: Quiz Preferences Styling */
+.quiz-preferences {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  margin-top: 15px;
+}
+
+.quiz-preferences label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: black;
+  gap: 8px; /* Ensures spacing between checkbox and text */
+  cursor: pointer;
+}
+
+.quiz-preferences input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #007bff; /* Changes checkbox color */
+}
+
+/* Terms & Conditions */
+.terms {
+  margin-top: 15px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.terms label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(15, 11, 241);
+  cursor: pointer;
+}
+
+.terms input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #28a745;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .register-container {
+    width: 90%;
+    padding: 20px;
   }
-  
-  input {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="password"] {
+    font-size: 14px;
   }
-  
+
   button {
-    background: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
+    font-size: 10px;
+    
   }
-  
-  button:hover {
-    background: #0056b3;
+
+  .quiz-preferences label {
+    font-size: 14px;
   }
-  
+
+  .quiz-preferences input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+}

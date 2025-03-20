@@ -16,10 +16,9 @@
   color: white;
   padding: 20px;
   text-align: center;
-  position: relative;
-  bottom: 0;
   width: 100%;
 }
+
 footer.footer-class {  /* Use the actual class name */
   background-color: #111 !important;
   color: white !important;

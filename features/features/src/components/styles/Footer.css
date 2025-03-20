@@ -1,12 +1,10 @@
 .footer {
-  background-color: black;
+  background-color: #007bff;
   color: white;
   padding: 20px 0;
   width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
   text-align: center;
+  margin-top: auto; /* Pushes footer to bottom */
 }
 
 .footer-container {
@@ -27,7 +25,7 @@
 }
 
 .footer-column h3 {
-  color: #00ff7f;
+  color: #3a3737;
   margin-bottom: 10px;
   font-size: 1.2rem;
 }
@@ -47,7 +45,7 @@
 .footer-bottom {
   text-align: center;
   padding: 10px 0;
-  background-color: #111;
+  background-color: #007bff;
   font-size: 0.9rem;
   margin-top: 20px;
 }
