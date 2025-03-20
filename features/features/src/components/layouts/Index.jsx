@@ -1,21 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Index.css"; 
+import "../styles/Index.css";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [faqOpen, setFaqOpen] = useState(null);
+
+  const faqs = [
+    { question: "What is QuizIt?", answer: "QuizIt is an interactive platform where you can take quizzes, challenge friends, and learn in a fun way!" },
+    { question: "How do I start a quiz?", answer: "Simply sign up and click on 'Start Quiz' to begin your journey!" },
+    { question: "Is QuizIt free to use?", answer: "Yes! QuizIt is completely free to play and enjoy." },
+    { question: "Can I create my own quizzes?", answer: "Yes! After signing in, you can create and share quizzes with others." },
+  ];
 
   return (
     <div className="index-container">
-      <div className="text-content">
-        <h1>Welcome to QuizIt</h1>
-        <p>Test your knowledge with fun and challenging quizzes!</p>
-        <button className="start-btn" onClick={() => navigate("/register")}>
-          Start Quiz
-        </button>
+      {/* Hero Section */}
+      <div className="hero">
+        <div className="text-content">
+          <h1>Engaging Quizzes for Everyone!</h1>
+          <p>Challenge yourself, learn new things, and have fun with QuizIt.</p>
+          <div className="buttons">
+            <button className="start-btn" onClick={() => navigate("/register")}>Sign Up</button>
+            <button className="explore-btn" onClick={() => navigate("/quizzes")}>Explore Quizzes</button>
+          </div>
+        </div>
+        <div className="image-container">
+          <img src="/quiz.jpg" alt="Quiz Illustration" className="quiz-image" />
+        </div>
       </div>
-      <div className="image-container">
-        <img src="/quiz.jpg" alt="Quiz Illustration" className="quiz-image" />
+
+      {/* FAQ Section */}
+      <div className="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div className="faq-list">
+          {faqs.map((faq, index) => (
+            <div key={index} className="faq-item">
+              <div className="faq-question" onClick={() => setFaqOpen(faqOpen === index ? null : index)}>
+                {faq.question}
+                <span>{faqOpen === index ? "▼" : "▶"}</span>
+              </div>
+              {faqOpen === index && <div className="faq-answer">{faq.answer}</div>}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

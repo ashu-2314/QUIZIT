@@ -1,26 +1,29 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Profile = ({ userData }) => {
-  const [user, setUser] = useState(userData || null);
+const Profile = () => {
+  const [userData, setUserData] = useState(null);
   const [editingField, setEditingField] = useState(null);
   const [tempValue, setTempValue] = useState("");
-  const [profilePic, setProfilePic] = useState("https://www.w3schools.com/howto/img_avatar.png");
-  const navigate = useNavigate();
+  const [profilePic, setProfilePic] = useState("");
 
   useEffect(() => {
-    // Fetch user data only if not already set
-    if (!user) {
-      const storedUser = sessionStorage.getItem("userData");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      } else {
-        console.log("No user found, redirecting to login...");
-        navigate("/login");
-      }
+    const loggedInEmail = localStorage.getItem("loggedInUserEmail");
+
+    if (!loggedInEmail) {
+      alert("No logged-in user found. Please log in.");
+      window.location.href = "/login";
+      return;
     }
-  }, [navigate, user]);
+
+    axios
+      .get(`https://quizit-server.onrender.com/users/${loggedInEmail}`)
+      .then((response) => {
+        setUserData(response.data);
+        setProfilePic(response.data.profilePic || "https://www.w3schools.com/howto/img_avatar.png");
+      })
+      .catch((error) => console.error("Error fetching user data:", error));
+  }, []);
 
   const handleEdit = (field, value) => {
     setEditingField(field);
@@ -28,17 +31,16 @@ const Profile = ({ userData }) => {
   };
 
   const handleSave = async () => {
-    if (!user || !user.id) return;
+    if (!userData) return;
 
-    const updatedUser = { ...user, [editingField]: tempValue };
+    const updatedUser = { ...userData, [editingField]: tempValue };
 
     try {
       const response = await axios.put(
-        `https://quizit-server.onrender.com/users/${user.id}`,
+        `https://quizit-server.onrender.com/users/${userData.email}`,
         updatedUser
       );
-      setUser(response.data);
-      sessionStorage.setItem("userData", JSON.stringify(response.data));
+      setUserData(response.data);
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -49,9 +51,10 @@ const Profile = ({ userData }) => {
   return (
     <div className="profile-container">
       <h2>Profile</h2>
-      {user ? (
+
+      {userData ? (
         <div>
-          {/* Profile Picture */}
+          {/* Profile Picture Section */}
           <div>
             <img src={profilePic} alt="Profile" className="profile-image" />
             <input
@@ -65,9 +68,9 @@ const Profile = ({ userData }) => {
 
           {/* Editable Fields */}
           <div className="profile-fields">
-            {Object.keys(user).map(
+            {Object.keys(userData).map(
               (key) =>
-                key !== "id" &&
+                key !== "email" &&
                 key !== "profilePic" && (
                   <div key={key} className="profile-field">
                     <span>{key}:</span>
@@ -79,14 +82,14 @@ const Profile = ({ userData }) => {
                         className="profile-input"
                       />
                     ) : (
-                      <span>{user[key]}</span>
+                      <span>{userData[key]}</span>
                     )}
                     {editingField === key ? (
                       <button onClick={handleSave} className="profile-btn save-btn">
                         Save
                       </button>
                     ) : (
-                      <button onClick={() => handleEdit(key, user[key])} className="profile-btn edit-btn">
+                      <button onClick={() => handleEdit(key, userData[key])} className="profile-btn edit-btn">
                         Edit
                       </button>
                     )}
@@ -96,7 +99,7 @@ const Profile = ({ userData }) => {
           </div>
         </div>
       ) : (
-        <p>Loading user data...</p>
+        <p>No user data found.</p>
       )}
     </div>
   );

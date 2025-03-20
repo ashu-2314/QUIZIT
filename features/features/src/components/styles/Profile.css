@@ -1,139 +1,76 @@
-/* Profile Page Container */
 .profile-container {
-  max-width: 500px;
-  margin: 50px auto;
+  width: 400px;
+  margin: auto;
   padding: 20px;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile Header */
-.profile-container h2 {
-  color: #333;
-  margin-bottom: 15px;
-  font-size: 22px;
-}
-
-/* Profile Image */
 .profile-image {
-  width: 100px;  /* ✅ Smaller Image */
+  width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 2px solid #007bff;
-  object-fit: cover;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-/* Profile Image Input */
-.profile-image-input {
-  width: 80%;
-  padding: 6px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-/* Profile Fields */
-.profile-fields {
-  margin-top: 15px;
-  text-align: left;
-}
-
-/* Profile Field Row */
 .profile-field {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
-  border-bottom: 1px solid #ddd;
+  justify-content: space-between;
+  background: #f1f1f1;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
 }
 
-/* Profile Field Label */
-.profile-field span {
+.label {
   font-weight: bold;
-  color: #333;
-  font-size: 14px;
+  flex: 1;
+  text-align: left;
+  color: black;
 }
 
-/* Profile Input */
+.profile-value {
+  flex: 2;
+  text-align: left;
+  word-wrap: break-word;
+  color: black;
+}
+
 .profile-input {
-  flex: 1;
-  padding: 6px;
+  flex: 2;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 14px;
-  margin-left: 10px;
+  color: black;
 }
 
-/* Buttons */
-.profile-btn {
-  padding: 6px 10px;  /* ✅ Smaller Button */
-  border: none;
-  border-radius: 5px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-/* Edit Button */
 .edit-btn {
-  background-color: #007bff;
+  flex: 0.5;
+  background: #007bff;
   color: white;
-  margin-left: 10px;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .edit-btn:hover {
-  background-color: #0056b3;
+  background: #0056b3;
 }
-
-/* Save Button */
-.save-btn {
-  background-color: #28a745;
+.delete-btn {
+  background: red;
   color: white;
-  margin-left: 10px;
-}
-
-.save-btn:hover {
-  background-color: #218838;
-}
-
-/* Logout Button */
-.logout-btn {
-  background-color: #dc3545;
-  color: white;
+  border: none;
   padding: 10px 15px;
-  margin-top: 15px;
   border-radius: 5px;
   cursor: pointer;
-  transition: 0.3s;
+  margin-top: 15px;
+  font-weight: bold;
 }
 
-.logout-btn:hover {
-  background-color: #c82333;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-  .profile-container {
-    width: 90%;
-    padding: 15px;
-  }
-
-  .profile-image {
-    width: 80px;  /* ✅ Adjusted for mobile */
-    height: 80px;
-  }
-
-  .profile-field {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .profile-btn {
-    width: auto;  /* ✅ Prevents full-width buttons */
-    margin-top: 5px;
-  }
+.delete-btn:hover {
+  background: darkred;
 }

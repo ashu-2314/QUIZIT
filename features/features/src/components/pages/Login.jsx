@@ -26,7 +26,7 @@ const Login = ({ setUserData }) => {
       const response = await axios.post("https://quizit-server.onrender.com/users", user);
       console.log("✅ Login Response Data:", response.data);
 
-      if (response.data ) {  // ✅ Ensure token exists
+      if (response.data) {  
         setUserData(response.data);
         sessionStorage.setItem("userData", JSON.stringify(response.data));
 
@@ -56,6 +56,11 @@ const Login = ({ setUserData }) => {
         <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
         <button type="submit">Login</button>
       </form>
+
+      {/* Added Registration Link */}
+      <p className="register-link">
+        Don't have an account? <span onClick={() => navigate("/register")}>Register</span>
+      </p>
     </div>
   );
 };

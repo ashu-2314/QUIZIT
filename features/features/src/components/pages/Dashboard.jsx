@@ -16,14 +16,31 @@ const Dashboard = ({ userData }) => {
   return (
     <div className="dashboard-container">
       {user ? (
-        <>
-          <h1>Welcome to QuizIt, {user.name || "User"}!</h1>
-          <p>Email: {user.email}</p>
-          <button onClick={() => {
+        <div className="dashboard-card">
+          <img 
+            src={user.profilePic || "https://www.w3schools.com/howto/img_avatar.png"} 
+            alt="User Avatar" 
+            className="profile-pic"
+          />
+          <h1>Welcome, {user.name || "User"}!</h1>
+          <p className="email-text">📧 {user.email}</p>
+
+          <div className="dashboard-buttons">
+            <button className="primary-btn" onClick={() => navigate("/quizzes")}>
+              🎯 Take a Quiz
+            </button>
+            <button className="secondary-btn" onClick={() => navigate("/profile")}>
+              🔍 View Profile
+            </button>
+          </div>
+
+          <button className="logout-btn" onClick={() => {
             sessionStorage.clear();
             navigate("/login");
-          }}>Logout</button>
-        </>
+          }}>
+            🚪 Logout
+          </button>
+        </div>
       ) : (
         <h2>Loading...</h2>
       )}

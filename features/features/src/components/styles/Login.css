@@ -63,3 +63,19 @@ button {
 button:hover {
   background: #218838;
 }
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.register-link span {
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-link span:hover {
+  text-decoration: underline;
+}

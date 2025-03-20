@@ -1,38 +1,110 @@
+/* Page Background */
 .dashboard-container {
-    text-align: center;
-    padding: 50px;
-    background-color: #f4f4f4;
-    min-height: 100vh;
-    color:black
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #007bff, #6a11cb);
+}
+
+/* Card Container */
+.dashboard-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+/* Profile Picture */
+.profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #007bff;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+/* Welcome Text */
+.dashboard-card h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+/* Email Text */
+.email-text {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+.dashboard-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* Primary Button */
+.primary-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.primary-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Secondary Button */
+.secondary-btn {
+  background-color: #6a11cb;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondary-btn:hover {
+  background-color: #5708a7;
+}
+
+/* Logout Button */
+.logout-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #b22234;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .dashboard-card {
+    padding: 20px;
   }
-  
-  .dashboard-header {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
+
+  .dashboard-buttons {
+    flex-direction: column;
   }
-  
-  .dashboard-subtext {
-    font-size: 18px;
-    color: #555;
-    margin-bottom: 20px;
-  }
-  
-  .logout-button {
-    
-      width: 100%;
-      padding: 5px;
-      font-size: 16px;
-      background: #28a745;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-  
-  
-  .logout-button:hover {
-    background-color: darkred;
-  }
-  
+}

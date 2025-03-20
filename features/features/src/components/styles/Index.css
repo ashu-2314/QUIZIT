@@ -1,79 +1,152 @@
-/* Reset default margins and padding */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Ensure full-page layout */
-html, body {
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden; /* Prevents horizontal scrolling */
-}
-
-/* Main container */
+/* General Styling */
 .index-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  width: 100%; /* Changed from 100vw to 100% */
-  min-height: 80vh;
-  background-color: #ffffff;
-  padding: 50px 0; /* Remove side padding */
-  overflow: hidden; /* Ensures child elements don’t overflow */
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  min-height: 100vh;
 }
 
-/* Text Content Styling */
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  width: 100%;
+}
+
 .text-content {
-  flex: 1;
-  max-width: 50%;
-  padding-left: 5%;
+  max-width: 600px;
+  text-align: left;
+  color: white;
+  padding: 20px;
 }
 
 .text-content h1 {
   font-size: 2.5rem;
-  color: #333;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
 .text-content p {
   font-size: 1.2rem;
-  color: #666;
   margin-bottom: 20px;
 }
 
-/* Button Styling */
-.start-btn {
-  padding: 10px 20px;
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.start-btn,
+.explore-btn {
+  padding: 12px 20px;
   font-size: 1rem;
-  background-color: #007bff;
-  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.start-btn {
+  background-color: #ff4081;
+  color: white;
 }
 
 .start-btn:hover {
-  background-color: #0056b3;
+  background-color: #e6005c;
 }
 
-/* Image Container */
+.explore-btn {
+  background-color: white;
+  color: #2575fc;
+  border: 2px solid #2575fc;
+}
+
+.explore-btn:hover {
+  background-color: #2575fc;
+  color: white;
+}
+
+/* Image Section */
 .image-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-right: 5%;
+  max-width: 400px;
+  padding: 20px;
 }
 
-/* Image Styling */
 .quiz-image {
   width: 100%;
-  max-width: 450px;
-  height: auto;
   border-radius: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* FAQ Section */
+.faq-section {
+  margin-top: 50px;
+  max-width: 800px;
+  width: 100%;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.faq-item {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  background: #e3e3e3;
+}
+
+.faq-question {
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-answer {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #555;
+  text-align: left;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .text-content {
+    text-align: center;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+}
