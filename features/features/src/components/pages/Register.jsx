@@ -35,7 +35,7 @@ const Register = () => {
     }));
   };
 
-  // Validation logic
+  // Validate Steps
   const validateStep = () => {
     let newErrors = {};
 
@@ -64,8 +64,8 @@ const Register = () => {
   // Check if email is already registered
   const checkEmailExists = async () => {
     try {
-      const response = await axios.get(`https://quizit-server.onrender.com/users?email=${user.email}`);
-      if (response.data.exists) {
+      const response = await axios.get(`http://localhost:3000/users?email=${user.email}`);
+      if (response.data.length > 0) {
         setErrors((prevErrors) => ({ ...prevErrors, email: "Email already registered" }));
         return true;
       }
@@ -91,15 +91,29 @@ const Register = () => {
     setStep(step - 1);
   };
 
-  // Submit form
+  // Submit Form (Store Data in JSON Server)
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateStep()) return;
 
+    const userData = {
+      email: user.email,
+      phone: user.phone,
+      dob: user.dob,
+      gender: user.gender,
+      password: user.password, // In real apps, hash passwords before storing
+      preferences: user.preferences,
+    };
+
     try {
-      await axios.post("https://quizit-server.onrender.com/users", user);
-      alert("Registration successful!");
-      navigate("/login");
+      const response = await axios.post("http://localhost:3000/users", userData);
+
+      if (response.status === 201) {
+        alert("Registration successful!");
+        navigate("/login");
+      } else {
+        throw new Error("Failed to register user.");
+      }
     } catch (error) {
       console.error("Error during signup:", error);
       alert("Signup failed. Please try again.");
@@ -108,7 +122,9 @@ const Register = () => {
 
   return (
     <div className="register-container">
-      <h2>Step {step}: {step === 1 ? "Personal Details" : step === 2 ? "Account Setup" : "Preferences & Confirmation"}</h2>
+      <h2>
+        Step {step}: {step === 1 ? "Personal Details" : step === 2 ? "Account Setup" : "Preferences & Confirmation"}
+      </h2>
 
       <form onSubmit={handleSubmit}>
         {/* Step 1: Personal Details */}
@@ -121,17 +137,16 @@ const Register = () => {
             <input type="date" name="dob" onChange={handleChange} required />
             {errors.dob && <p className="error">{errors.dob}</p>}
             <div className="gender-options">
-            <label>
-            <input type="radio" name="gender" value="male" onChange={handleChange} required /> Male
-            </label>
-            <label>
-            <input type="radio" name="gender" value="female" onChange={handleChange} required /> Female
-            </label>
-            <label>
-            <input type="radio" name="gender" value="other" onChange={handleChange} required /> Other
-            </label>
+              <label>
+                <input type="radio" name="gender" value="male" onChange={handleChange} required /> Male
+              </label>
+              <label>
+                <input type="radio" name="gender" value="female" onChange={handleChange} required /> Female
+              </label>
+              <label>
+                <input type="radio" name="gender" value="other" onChange={handleChange} required /> Other
+              </label>
             </div>
-
             {errors.gender && <p className="error">{errors.gender}</p>}
             <button type="button" onClick={nextStep}>Next</button>
           </>
@@ -150,45 +165,35 @@ const Register = () => {
         )}
 
         {/* Step 3: Preferences & Confirmation */}
-{step === 3 && (
-  <>
-    <h3 className="section-title">Select Your Quiz Preferences:</h3>
-    
-    <div className="quiz-preferences">
-      <label>
-        <input type="checkbox" value="Science" onChange={handlePreferencesChange} />
-        <span>Science</span>
-      </label>
+        {step === 3 && (
+          <>
+            <h3 className="section-title">Select Your Quiz Preferences:</h3>
+            <div className="quiz-preferences">
+              {["Science", "Math", "History", "Technology"].map((subject) => (
+                <label key={subject}>
+                  <input type="checkbox" value={subject} onChange={handlePreferencesChange} />
+                  <span>{subject}</span>
+                </label>
+              ))}
+            </div>
 
-      <label>
-        <input type="checkbox" value="Math" onChange={handlePreferencesChange} />
-        <span>Math</span>
-      </label>
+            <div className="terms">
+              <label>
+                <input
+                  type="checkbox"
+                  name="termsAccepted"
+                  onChange={(e) => setUser({ ...user, termsAccepted: e.target.checked })}
+                  required
+                />
+                <span>I accept the Terms & Conditions</span>
+              </label>
+            </div>
+            {errors.termsAccepted && <p className="error">{errors.termsAccepted}</p>}
 
-      <label>
-        <input type="checkbox" value="History" onChange={handlePreferencesChange} />
-        <span>History</span>
-      </label>
-
-      <label>
-        <input type="checkbox" value="Technology" onChange={handlePreferencesChange} />
-        <span>Technology</span>
-      </label>
-    </div>
-
-    <div className="terms">
-      <label>
-        <input type="checkbox" name="termsAccepted" onChange={(e) => setUser({ ...user, termsAccepted: e.target.checked })} required />
-        <span>I accept the Terms & Conditions</span>
-      </label>
-    </div>
-    {errors.termsAccepted && <p className="error">{errors.termsAccepted}</p>}
-
-    <button type="button" onClick={prevStep} className="back-btn">Back</button>
-    <button type="submit" className="register-btn">Register</button>
-  </>
-)}
-
+            <button type="button" onClick={prevStep} className="back-btn">Back</button>
+            <button type="submit" className="register-btn">Register</button>
+          </>
+        )}
       </form>
     </div>
   );

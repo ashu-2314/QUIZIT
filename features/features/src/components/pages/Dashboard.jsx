@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Import AuthContext
 import "../styles/Dashboard.css";
 
-const Dashboard = ({ userData }) => {
+const Dashboard = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(userData || JSON.parse(sessionStorage.getItem("userData")));
+  const { isAuthenticated, user, logout } = useAuth(); // Use AuthContext
+
 
   useEffect(() => {
-    if (!user) {
+    if (!isAuthenticated) {
       console.log("No user data found, redirecting to login...");
       navigate("/login");
     }
-  }, [user, navigate]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="dashboard-container">
-      {user ? (
+      {isAuthenticated && user ? (
         <div className="dashboard-card">
           <img 
             src={user.profilePic || "https://www.w3schools.com/howto/img_avatar.png"} 
@@ -34,10 +36,7 @@ const Dashboard = ({ userData }) => {
             </button>
           </div>
 
-          <button className="logout-btn" onClick={() => {
-            sessionStorage.clear();
-            navigate("/login");
-          }}>
+          <button className="logout-btn" onClick={logout}>
             🚪 Logout
           </button>
         </div>
