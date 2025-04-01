@@ -8,7 +8,7 @@ import "../styles/login.css"; // Import the CSS file
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
@@ -20,31 +20,21 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-
+  
     try {
-      // Fetch user from JSON Server
-      const response = await axios.get(`http://localhost:3000/users?email=${formData.email}`);
-      const users = response.data;
-
-      if (users.length === 0) {
-        setError("User not found. Please register first.");
-        return;
-      }
-
-      const user = users[0]; // Since email is unique, we take the first match
-
-      if (user.password !== formData.password) {
-        setError("Invalid credentials");
-        return;
-      }
-
-      login(user.email); // Store user in AuthContext
+     
+      const response = await axios.post("http://localhost:8080/api/users/login", formData, {withCredentials: true});
+  
+      const { token, user } = response.data;
+      localStorage.setItem("authToken", token);
+      login(user);
       navigate("/dashboard");
     } catch (error) {
-      console.error("Login error:", error);
-      setError("Something went wrong. Please try again.");
+      console.error("Login error:", error.response?.data || error.message);
+      setError(error.response?.data?.message || "Invalid credentials");
     }
   };
+  
 
   return (
     <div className="login-container">
@@ -52,13 +42,13 @@ const Login = () => {
         <h2>Login</h2>
 
         <div className="form-group">
-          <label>Email:</label>
+          <label>Username:</label>
           <input
             type="text"
-            name="email"
-            value={formData.email}
+            name="username"
+            value={formData.username}
             onChange={handleChange}
-            placeholder="Enter your email"
+            placeholder="Enter your username"
             required
           />
         </div>

@@ -1,83 +1,69 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useState,
+} from "react";
+import authReducer from "../reducer/authReducer";
 import axios from "axios";
 
-// ✅ API Base URL
-const API_BASE_URL = "https://quizit-server.onrender.com/users";
+export const AuthContext = createContext();
 
-// Create Auth Context
-const AuthContext = createContext();
-
-// Custom Hook to use Auth Context
-export const useAuth = () => useContext(AuthContext);
-
-// Auth Provider Component
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true); // ✅ Loading state
+  const initialState = { isAuthenticated: false, user: null };
 
-  // ✅ Check authentication status on mount
+  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}/me`, { withCredentials: true }) // ✅ Fetch logged-in user
-      .then((response) => {
-        if (response.data) {
-          setUser(response.data);
-          setIsAuthenticated(true);
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/users/check-auth",
+          {
+            withCredentials: true, // Include cookies in request
+          }
+        );
+
+        console.log("auth context");
+
+        if (response.data.user) {
+          dispatch({ type: "LOGIN", payload: response.data.username });
         }
-      })
-      .catch(() => {
-        setUser(null);
-        setIsAuthenticated(false);
-      })
-      .finally(() => setLoading(false)); // ✅ Stop loading after request
-  }, []);
-
-  // ✅ Login Function
-  const login = async (email, password) => {
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}/login`, // ✅ Corrected endpoint
-        { email, password },
-        { withCredentials: true }
-      );
-
-      if (response.data) {
-        setUser(response.data.user);
-        setIsAuthenticated(true);
-        console("login success")
-        return { success: true };
-      } else {
-        return { success: false, message: "Invalid email or password" };
+      } catch (error) {
+        console.error("Auth check failed:", error);
+      } finally {
+        setLoading(false); // Update loading state after fetching
       }
-    } catch (error) {
-      console.error("Login error:", error);
-      return { success: false, message: "Failed to login. Please try again." };
-    }
+    };
+
+    checkAuth();
+  }, []); // Run only once when component mounts
+
+  const login = (username) => {
+    dispatch({ type: "LOGIN", payload: username });
   };
 
-  // ✅ Logout Function
+  const updateProfile = (updates) => {
+    dispatch({ type: "UPDATE", payload: updates });
+  };
+
   const logout = async () => {
-    try {
-      await axios.post(`${API_BASE_URL}/logout`, {}, { withCredentials: true }); // ✅ Corrected endpoint
-      setUser(null);
-      setIsAuthenticated(false);
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
+    await fetch("http://localhost:8080/api/users/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    dispatch({ type: "LOGOUT" });
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loading, login, logout }}>
+    <AuthContext.Provider
+      value={{ state, login, logout, updateProfile, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// ✅ PropTypes for better safety
-AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-export default AuthProvider;
+export const useAuth = () => useContext(AuthContext);

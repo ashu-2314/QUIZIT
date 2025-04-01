@@ -10,6 +10,7 @@ const Register = () => {
     phone: "",
     dob: "",
     gender: "",
+    username:"",
     password: "",
     confirmPassword: "",
     preferences: [],
@@ -96,19 +97,19 @@ const Register = () => {
     e.preventDefault();
     if (!validateStep()) return;
 
-    const userData = {
-      email: user.email,
-      phone: user.phone,
-      dob: user.dob,
-      gender: user.gender,
-      password: user.password, // In real apps, hash passwords before storing
-      preferences: user.preferences,
-    };
+    // const userData = {
+    //   email: user.email,
+    //   phone: user.phone,
+    //   dob: user.dob,
+    //   gender: user.gender,
+    //   password: user.password, // In real apps, hash passwords before storing
+    //   preferences: user.preferences,
+    // };
 
     try {
-      const response = await axios.post("http://localhost:3000/users", userData);
+      const response = await axios.post("http://localhost:8080/api/users/register", user);
 
-      if (response.status === 201) {
+      if (response.data) {
         alert("Registration successful!");
         navigate("/login");
       } else {
@@ -155,6 +156,8 @@ const Register = () => {
         {/* Step 2: Account Setup */}
         {step === 2 && (
           <>
+          <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
+
             <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
             {errors.password && <p className="error">{errors.password}</p>}
             <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} required />
