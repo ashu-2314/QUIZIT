@@ -1,91 +1,41 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "../styles/Profile.css";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, updateProfile } = useAuth(); // Use AuthContext
-
-
-  const [editingField, setEditingField] = useState(null);
-  const [tempValue, setTempValue] = useState("");
-  const [profilePic, setProfilePic] = useState(user?.profilePic || "https://www.w3schools.com/howto/img_avatar.png");
-
-  if (!user) {
-    navigate("/login"); // Redirect if not authenticated
-    return null;
-  }
-
-  const handleEdit = (field, value) => {
-    setEditingField(field);
-    setTempValue(value);
-  };
-
-  const handleSave = async () => {
-    if (!user) return;
-
-    const updatedUser = { ...user, [editingField]: tempValue };
-
-    try {
-      const response = await axios.put(
-        `https://quizit-server.onrender.com/users/${user.email}`,
-        updatedUser
-      );
-
-      updateProfile(response.data); // Update context state
-    } catch (error) {
-      console.error("Error updating user:", error);
-    }
-
-    setEditingField(null);
-  };
+  const { state, logout } = useAuth();
+  const { user } = state;
 
   return (
     <div className="profile-container">
-      <h2>Profile</h2>
+      <div className="profile-card">
+        <div className="profile-header">
+          <img 
+            src={user?.profilePic || "https://www.w3schools.com/howto/img_avatar.png"} 
+            alt="Profile" 
+            className="profile-pic"
+          />
+          <h1>{user?.name || "User"}</h1>
+          <p className="profile-email">📧 {user?.email}</p>
+        </div>
 
-      <div>
-        <img src={profilePic} alt="Profile" className="profile-image" />
-        <input
-          type="text"
-          placeholder="Enter image URL"
-          value={profilePic}
-          onChange={(e) => setProfilePic(e.target.value)}
-          className="profile-image-input"
-        />
-      </div>
+        <div className="profile-details">
+          <h2>Profile Information</h2>
+          <p><strong>Username:</strong> {user?.username || "N/A"}</p>
+          <p><strong>Joined:</strong> {new Date(user?.createdAt).toLocaleDateString() || "N/A"}</p>
+          <p><strong>Role:</strong> {user?.role || "Participant"}</p>
+        </div>
 
-      <div className="profile-fields">
-        {Object.keys(user).map(
-          (key) =>
-            key !== "email" &&
-            key !== "profilePic" && (
-              <div key={key} className="profile-field">
-                <span>{key}:</span>
-                {editingField === key ? (
-                  <input
-                    type="text"
-                    value={tempValue}
-                    onChange={(e) => setTempValue(e.target.value)}
-                    className="profile-input"
-                  />
-                ) : (
-                  <span>{user[key]}</span>
-                )}
-                {editingField === key ? (
-                  <button onClick={handleSave} className="profile-btn save-btn">
-                    Save
-                  </button>
-                ) : (
-                  <button onClick={() => handleEdit(key, user[key])} className="profile-btn edit-btn">
-                    Edit
-                  </button>
-                )}
-              </div>
-            )
-        )}
+        <div className="profile-actions">
+          <button className="edit-btn" onClick={() => navigate("/edit-profile")}>
+            ✏️ Edit Profile
+          </button>
+          <button className="logout-btn" onClick={logout}>
+            🚪 Logout
+          </button>
+        </div>
       </div>
     </div>
   );

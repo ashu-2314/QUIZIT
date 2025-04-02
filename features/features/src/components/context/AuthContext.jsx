@@ -26,10 +26,8 @@ export const AuthProvider = ({ children }) => {
           }
         );
 
-        console.log("auth context");
-
         if (response.data.user) {
-          dispatch({ type: "LOGIN", payload: response.data.username });
+          dispatch({ type: "LOGIN", payload: response.data.user }); // Store full user object
         }
       } catch (error) {
         console.error("Auth check failed:", error);
@@ -41,8 +39,8 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []); // Run only once when component mounts
 
-  const login = (username) => {
-    dispatch({ type: "LOGIN", payload: username });
+  const login = (user) => {
+    dispatch({ type: "LOGIN", payload: user }); // Store full user object
   };
 
   const updateProfile = (updates) => {

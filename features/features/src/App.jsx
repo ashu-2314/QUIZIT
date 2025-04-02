@@ -10,9 +10,9 @@ import Header from "./components/layouts/Header";
 import Footer from "./components/layouts/Footer";
 
 const ProtectedRoute = ({ element }) => {
-  const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated)
-  return isAuthenticated ? element : <Navigate to="/login" />;
+  const { state } = useAuth();
+  console.log(state.isAuthenticated)
+  return state.isAuthenticated ? element : <Navigate to="/login" />;
 };
 
 const App = () => {

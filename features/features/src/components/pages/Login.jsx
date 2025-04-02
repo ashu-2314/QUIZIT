@@ -25,9 +25,9 @@ const Login = () => {
      
       const response = await axios.post("http://localhost:8080/api/users/login", formData, {withCredentials: true});
   
-      const { token, user } = response.data;
-      localStorage.setItem("authToken", token);
-      login(user);
+      const { username } = response.data;
+      // localStorage.setItem("authToken", token);
+      login(username);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
