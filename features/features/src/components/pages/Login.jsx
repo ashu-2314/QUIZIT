@@ -20,21 +20,30 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-  
+
     try {
-     
-      const response = await axios.post("http://localhost:8080/api/users/login", formData, {withCredentials: true});
-  
-      const { username } = response.data;
-      // localStorage.setItem("authToken", token);
-      login(username);
-      navigate("/dashboard");
+      const response = await axios.post(
+        "http://localhost:8080/api/users/login",
+        formData,
+        { withCredentials: true }
+      );
+
+      const { username, role } = response.data;
+
+      // Store user session
+      login(username, role);
+
+      // Redirect based on role
+      if (role === "ADMIN") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
       setError(error.response?.data?.message || "Invalid credentials");
     }
   };
-  
 
   return (
     <div className="login-container">

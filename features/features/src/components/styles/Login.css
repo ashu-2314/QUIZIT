@@ -22,6 +22,7 @@ h2 {
   color: #333;
 }
 
+/* Form group */
 .form-group {
   margin-bottom: 15px;
   text-align: left;
@@ -40,6 +41,13 @@ input {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+/* Input Focus Effect */
+input:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
 /* Password field container */
@@ -54,6 +62,12 @@ input {
   right: 10px;
   cursor: pointer;
   color: #555;
+  font-size: 20px;
+  transition: color 0.3s;
+}
+
+.password-toggle:hover {
+  color: #007bff;
 }
 
 /* Error message */
@@ -61,6 +75,7 @@ input {
   color: red;
   font-size: 14px;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 /* Login button */
@@ -72,9 +87,27 @@ input {
   background: #28a745;
   color: white;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 .login-button:hover {
   background: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .login-form {
+    width: 90%;
+    padding: 15px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  .login-button {
+    font-size: 14px;
+  }
 }

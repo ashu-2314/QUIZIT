@@ -11,7 +11,7 @@ import axios from "axios";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const initialState = { isAuthenticated: false, user: null };
+  const initialState = { isAuthenticated: false, user: null, role: null };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
   const [loading, setLoading] = useState(true);
@@ -27,7 +27,10 @@ export const AuthProvider = ({ children }) => {
         );
 
         if (response.data.user) {
-          dispatch({ type: "LOGIN", payload: response.data.user }); // Store full user object
+          dispatch({ 
+            type: "LOGIN", 
+            payload: { user: response.data.user, role: response.data.role } 
+          }); // Store user and role
         }
       } catch (error) {
         console.error("Auth check failed:", error);
@@ -39,8 +42,8 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []); // Run only once when component mounts
 
-  const login = (user) => {
-    dispatch({ type: "LOGIN", payload: user }); // Store full user object
+  const login = (user, role) => {
+    dispatch({ type: "LOGIN", payload: { user, role } }); // Store full user object and role
   };
 
   const updateProfile = (updates) => {
@@ -57,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ state, login, logout, updateProfile, loading }}
+      value={{ state, login, logout, updateProfile, loading, role: state.role }}
     >
       {children}
     </AuthContext.Provider>

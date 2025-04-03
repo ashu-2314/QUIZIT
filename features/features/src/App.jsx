@@ -8,6 +8,7 @@ import Dashboard from "./components/pages/Dashboard";
 import Profile from "./components/pages/Profile";
 import Header from "./components/layouts/Header";
 import Footer from "./components/layouts/Footer";
+import Quizzes from "./components/pages/Quizzes";
 
 const ProtectedRoute = ({ element }) => {
   const { state } = useAuth();
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/quizzes" element={<Quizzes />} />
             <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
             <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
           </Routes>

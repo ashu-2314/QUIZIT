@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import axios from "axios";
 import "../styles/Register.css";
 
@@ -10,110 +11,57 @@ const Register = () => {
     phone: "",
     dob: "",
     gender: "",
-    username:"",
+    username: "",
     password: "",
     confirmPassword: "",
+    role: "STUDENT", // Default role selection
     preferences: [],
     termsAccepted: false,
   });
 
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   // Handle input changes
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox" && name === "preferences") {
+      setUser((prevUser) => ({
+        ...prevUser,
+        preferences: checked
+          ? [...prevUser.preferences, value]
+          : prevUser.preferences.filter((pref) => pref !== value),
+      }));
+    } else {
+      setUser({ ...user, [name]: type === "checkbox" ? checked : value });
+    }
   };
 
-  // Handle preferences selection
-  const handlePreferencesChange = (e) => {
-    const { value, checked } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
-      preferences: checked
-        ? [...prevUser.preferences, value]
-        : prevUser.preferences.filter((pref) => pref !== value),
-    }));
-  };
-
-  // Validate Steps
-  const validateStep = () => {
-    let newErrors = {};
-
-    if (step === 1) {
-      if (!user.email) newErrors.email = "Email is required";
-      else if (!/\S+@\S+\.\S+/.test(user.email)) newErrors.email = "Invalid email format";
-      if (!user.phone) newErrors.phone = "Phone is required";
-      if (!user.dob) newErrors.dob = "Date of Birth is required";
-      if (!user.gender) newErrors.gender = "Gender is required";
-    }
-
-    if (step === 2) {
-      if (!user.password) newErrors.password = "Password is required";
-      else if (user.password.length < 6) newErrors.password = "Password must be at least 6 characters";
-      if (user.password !== user.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
-    }
-
-    if (step === 3) {
-      if (!user.termsAccepted) newErrors.termsAccepted = "You must accept the Terms & Conditions";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // Check if email is already registered
-  const checkEmailExists = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/users?email=${user.email}`);
-      if (response.data.length > 0) {
-        setErrors((prevErrors) => ({ ...prevErrors, email: "Email already registered" }));
-        return true;
-      }
-    } catch (error) {
-      console.error("Error checking email:", error);
-    }
-    return false;
-  };
+  // Toggle password visibility
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
   // Proceed to next step
-  const nextStep = async () => {
-    if (validateStep()) {
-      if (step === 1) {
-        const emailExists = await checkEmailExists();
-        if (emailExists) return;
-      }
-      setStep(step + 1);
-    }
-  };
+  const nextStep = () => setStep(step + 1);
+  const prevStep = () => setStep(step - 1);
 
-  // Go back to previous step
-  const prevStep = () => {
-    setStep(step - 1);
-  };
-
-  // Submit Form (Store Data in JSON Server)
+  // Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateStep()) return;
 
-    // const userData = {
-    //   email: user.email,
-    //   phone: user.phone,
-    //   dob: user.dob,
-    //   gender: user.gender,
-    //   password: user.password, // In real apps, hash passwords before storing
-    //   preferences: user.preferences,
-    // };
+    if (user.password !== user.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
 
     try {
       const response = await axios.post("http://localhost:8080/api/users/register", user);
-
       if (response.data) {
         alert("Registration successful!");
         navigate("/login");
-      } else {
-        throw new Error("Failed to register user.");
       }
     } catch (error) {
       console.error("Error during signup:", error);
@@ -132,11 +80,9 @@ const Register = () => {
         {step === 1 && (
           <>
             <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-            {errors.email && <p className="error">{errors.email}</p>}
             <input type="tel" name="phone" placeholder="Phone" onChange={handleChange} required />
-            {errors.phone && <p className="error">{errors.phone}</p>}
             <input type="date" name="dob" onChange={handleChange} required />
-            {errors.dob && <p className="error">{errors.dob}</p>}
+            
             <div className="gender-options">
               <label>
                 <input type="radio" name="gender" value="male" onChange={handleChange} required /> Male
@@ -148,7 +94,7 @@ const Register = () => {
                 <input type="radio" name="gender" value="other" onChange={handleChange} required /> Other
               </label>
             </div>
-            {errors.gender && <p className="error">{errors.gender}</p>}
+
             <button type="button" onClick={nextStep}>Next</button>
           </>
         )}
@@ -156,12 +102,46 @@ const Register = () => {
         {/* Step 2: Account Setup */}
         {step === 2 && (
           <>
-          <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
+            <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
 
-            <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-            {errors.password && <p className="error">{errors.password}</p>}
-            <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} required />
-            {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+            <div className="password-container">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                onChange={handleChange}
+                required
+              />
+              <span className="password-toggle" onClick={togglePasswordVisibility}>
+                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              </span>
+            </div>
+
+            <div className="password-container">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                onChange={handleChange}
+                required
+              />
+              <span className="password-toggle" onClick={toggleConfirmPasswordVisibility}>
+                {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+              </span>
+            </div>
+
+            {/* Role Selection */}
+            <div className="role-selection">
+              <label>
+                <input type="radio" name="role" value="STUDENT" checked={user.role === "STUDENT"} onChange={handleChange} />
+                Student
+              </label>
+              <label>
+                <input type="radio" name="role" value="ADMIN" checked={user.role === "ADMIN"} onChange={handleChange} />
+                Faculty/Admin
+              </label>
+            </div>
+
             <button type="button" onClick={prevStep}>Back</button>
             <button type="button" onClick={nextStep}>Next</button>
           </>
@@ -174,7 +154,7 @@ const Register = () => {
             <div className="quiz-preferences">
               {["Science", "Math", "History", "Technology"].map((subject) => (
                 <label key={subject}>
-                  <input type="checkbox" value={subject} onChange={handlePreferencesChange} />
+                  <input type="checkbox" name="preferences" value={subject} onChange={handleChange} />
                   <span>{subject}</span>
                 </label>
               ))}
@@ -182,19 +162,13 @@ const Register = () => {
 
             <div className="terms">
               <label>
-                <input
-                  type="checkbox"
-                  name="termsAccepted"
-                  onChange={(e) => setUser({ ...user, termsAccepted: e.target.checked })}
-                  required
-                />
+                <input type="checkbox" name="termsAccepted" onChange={handleChange} required />
                 <span>I accept the Terms & Conditions</span>
               </label>
             </div>
-            {errors.termsAccepted && <p className="error">{errors.termsAccepted}</p>}
 
-            <button type="button" onClick={prevStep} className="back-btn">Back</button>
-            <button type="submit" className="register-btn">Register</button>
+            <button type="button" onClick={prevStep}>Back</button>
+            <button type="submit">Register</button>
           </>
         )}
       </form>
